@@ -5,7 +5,6 @@ import { Logo } from "../components/Logo";
 import {
   isValidEmail,
   passwordStrength,
-  register,
   type LearnerType,
 } from "../services/auth";
 import { getItem, StorageKeys } from "../utils/storage";
@@ -58,7 +57,7 @@ function RegisterPage() {
 
   const strength = useMemo(() => passwordStrength(password), [password]);
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const next: Record<string, string> = {};
     if (!fullName.trim()) next.fullName = "Full name is required.";
@@ -78,23 +77,35 @@ function RegisterPage() {
     if (Object.keys(next).length) return;
 
     setSubmitting(true);
-    const res = register({
-      fullName,
+setFormError(null);
+
+try {
+  const response = await fetch("http://127.0.0.1:8000/auth/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      full_name: fullName,
       email,
       password,
-      age: ageNum,
-      gender: gender || undefined,
-      educationLevel,
-      learnerType: learnerType as LearnerType,
-      language: preferredLanguage,
-    });
-    setSubmitting(false);
-    if (!res.ok) {
-      setFormError(res.error);
-      return;
-    }
-    navigate({ to: "/profile-setup" });
-  };
+      preferred_language: preferredLanguage,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    setFormError(data.detail || "Registration failed.");
+    return;
+  }
+
+  navigate({ to: "/profile-setup" });
+} catch {
+  setFormError("Unable to connect to the server.");
+} finally {
+  setSubmitting(false);
+}
 
   return (
     <main className="auth-shell">
