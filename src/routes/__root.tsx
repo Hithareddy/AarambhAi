@@ -93,11 +93,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Aarambh AI — Begin Learning, Anytime" },
-      { name: "description", content: "Aarambh AI is an AI-powered learning assistant for foundational literacy." },
-      { property: "og:description", content: "Aarambh AI is an AI-powered learning assistant for foundational literacy." },
-      { name: "twitter:description", content: "Aarambh AI is an AI-powered learning assistant for foundational literacy." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5cb3f321-64d8-438b-9cf7-163457d15664/id-preview-6f2cea19--3251b849-3db4-4e74-a183-ca6b6f0ecb2a.lovable.app-1783054064689.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5cb3f321-64d8-438b-9cf7-163457d15664/id-preview-6f2cea19--3251b849-3db4-4e74-a183-ca6b6f0ecb2a.lovable.app-1783054064689.png" },
+      {
+        name: "description",
+        content: "Aarambh AI is an AI-powered learning assistant for foundational literacy.",
+      },
+      {
+        property: "og:description",
+        content: "Aarambh AI is an AI-powered learning assistant for foundational literacy.",
+      },
+      {
+        name: "twitter:description",
+        content: "Aarambh AI is an AI-powered learning assistant for foundational literacy.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5cb3f321-64d8-438b-9cf7-163457d15664/id-preview-6f2cea19--3251b849-3db4-4e74-a183-ca6b6f0ecb2a.lovable.app-1783054064689.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5cb3f321-64d8-438b-9cf7-163457d15664/id-preview-6f2cea19--3251b849-3db4-4e74-a183-ca6b6f0ecb2a.lovable.app-1783054064689.png",
+      },
     ],
     links: [
       {

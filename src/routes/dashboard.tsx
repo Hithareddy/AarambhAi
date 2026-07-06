@@ -38,10 +38,10 @@ function DashboardPage() {
       <section className="card card-wide" aria-labelledby="dash-title">
         <div className="card-header">
           <Logo withName />
-          <h1 id="dash-title">Hello, {user.fullName.split(" ")[0]} 👋</h1>
+          <h1 id="dash-title">Hello, {user.full_name.split(" ")[0]} 👋</h1>
           <p>
-            Your learning journey begins here. This is a placeholder dashboard —
-            your lessons and recommendations will appear here.
+            Your learning journey begins here. This is a placeholder dashboard — your lessons and
+            recommendations will appear here.
           </p>
         </div>
         <button className="btn btn-secondary" onClick={signOut}>

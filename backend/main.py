@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,10 +10,19 @@ from sqlalchemy.orm import Session
 import models  # noqa: F401 — register models with Base before create_all
 from database import Base, engine, get_db
 from models import User
-from schemas import UserLogin, UserRegister, UserResponse
-from security import hash_password, verify_password
-
-
+from schemas import (
+    LoginResponse,
+    ProfileUpdate,
+    UserLogin,
+    UserRegister,
+    UserResponse,
+)
+from security import (
+    create_access_token,
+    decode_access_token,
+    hash_password,
+    verify_password,
+)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
@@ -28,11 +38,37 @@ app.add_middleware(
         "http://127.0.0.1:3000",
         "http://localhost:5173",
         "http://127.0.0.1:5173",
+        "http://localhost:8081",
+        "http://127.0.0.1:8081",
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+bearer_scheme = HTTPBearer()
+
+
+def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+    db: Session = Depends(get_db),
+):
+    try:
+        user_id = decode_access_token(credentials.credentials)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired token",
+        )
+
+    user = db.query(User).filter(User.id == user_id).first()
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found",
+        )
+
+    return user
 
 
 @app.get("/")
@@ -98,7 +134,7 @@ def register_user(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Registration failed",
         )
-@app.post("/auth/login", response_model=UserResponse)
+@app.post("/auth/login", response_model=LoginResponse)
 def login_user(
     login_data: UserLogin,
     db: Session = Depends(get_db),
@@ -113,4 +149,41 @@ def login_user(
             detail="Invalid email or password",
         )
 
-    return user
+    access_token = create_access_token(user.id)
+
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": user,
+    }
+@app.get("/auth/me", response_model=UserResponse)
+def get_logged_in_user(
+    current_user: User = Depends(get_current_user),
+):
+    return current_user
+
+@app.put("/auth/profile", response_model=UserResponse)
+def update_user_profile(
+    profile_data: ProfileUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    try:
+        current_user.full_name = profile_data.full_name.strip()
+        current_user.preferred_language = profile_data.preferred_language
+        current_user.education_level = profile_data.education_level
+        current_user.learner_type = profile_data.learner_type
+        current_user.profile_completed = True
+
+        db.commit()
+        db.refresh(current_user)
+
+        return current_user
+
+    except SQLAlchemyError:
+        db.rollback()
+
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Profile update failed",
+        )

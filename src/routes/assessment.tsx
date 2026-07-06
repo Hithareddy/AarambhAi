@@ -25,15 +25,12 @@ function AssessmentIntro() {
           <Logo withName />
           <h1 id="as-title">Ready to Begin?</h1>
           <p>
-            Your personalized literacy assessment will help us recommend the
-            right learning path for you.
+            Your personalized literacy assessment will help us recommend the right learning path for
+            you.
           </p>
         </div>
 
-        <button
-          className="btn btn-accent"
-          onClick={() => navigate({ to: "/dashboard" })}
-        >
+        <button className="btn btn-accent" onClick={() => navigate({ to: "/dashboard" })}>
           Start Assessment
         </button>
       </section>

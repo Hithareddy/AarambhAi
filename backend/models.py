@@ -11,6 +11,10 @@ class User(Base):
     email = Column(String, nullable=False, unique=True, index=True)
     password_hash = Column(String, nullable=False)
     preferred_language = Column(String, nullable=True)
+    education_level = Column(String, nullable=True)
+    learner_type = Column(String, nullable=True)
+
+    
     profile_completed = Column(Boolean, nullable=False, default=False, server_default="false")
     created_at = Column(
         DateTime(timezone=True),

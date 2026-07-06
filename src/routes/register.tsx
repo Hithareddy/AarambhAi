@@ -2,11 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState, type FormEvent } from "react";
 import "../styles/theme.css";
 import { Logo } from "../components/Logo";
-import {
-  isValidEmail,
-  passwordStrength,
-  type LearnerType,
-} from "../services/auth";
+import { isValidEmail, passwordStrength, register, type LearnerType } from "../services/auth";
 import { getItem, StorageKeys } from "../utils/storage";
 
 export const Route = createFileRoute("/register")({
@@ -59,53 +55,72 @@ function RegisterPage() {
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     const next: Record<string, string> = {};
-    if (!fullName.trim()) next.fullName = "Full name is required.";
-    if (!email.trim()) next.email = "Email is required.";
-    else if (!isValidEmail(email)) next.email = "Please enter a valid email address.";
-    if (!password) next.password = "Password is required.";
-    else if (password.length < 8) next.password = "Password must be at least 8 characters.";
-    if (confirm !== password) next.confirm = "Passwords do not match.";
+
+    if (!fullName.trim()) {
+      next.fullName = "Full name is required.";
+    }
+
+    if (!email.trim()) {
+      next.email = "Email is required.";
+    } else if (!isValidEmail(email)) {
+      next.email = "Please enter a valid email address.";
+    }
+
+    if (!password) {
+      next.password = "Password is required.";
+    } else if (password.length < 8) {
+      next.password = "Password must be at least 8 characters.";
+    }
+
+    if (confirm !== password) {
+      next.confirm = "Passwords do not match.";
+    }
+
     const ageNum = Number(age);
-    if (!age) next.age = "Age is required.";
-    else if (!Number.isFinite(ageNum) || ageNum < 5 || ageNum > 120)
+
+    if (!age) {
+      next.age = "Age is required.";
+    } else if (!Number.isFinite(ageNum) || ageNum < 5 || ageNum > 120) {
       next.age = "Please enter a valid age.";
-    if (!educationLevel) next.educationLevel = "Please select your education level.";
-    if (!learnerType) next.learnerType = "Please select a learner type.";
+    }
+
+    if (!educationLevel) {
+      next.educationLevel = "Please select your education level.";
+    }
+
+    if (!learnerType) {
+      next.learnerType = "Please select a learner type.";
+    }
 
     setErrors(next);
+    setFormError(null);
+
     if (Object.keys(next).length) return;
 
     setSubmitting(true);
-setFormError(null);
 
-try {
-  const response = await fetch("http://127.0.0.1:8000/auth/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      full_name: fullName,
-      email,
-      password,
-      preferred_language: preferredLanguage,
-    }),
-  });
+    try {
+      const res = await register({
+        fullName,
+        email,
+        password,
+        language: preferredLanguage,
+      });
 
-  const data = await response.json();
+      if (!res.ok) {
+        setFormError(res.error);
+        return;
+      }
 
-  if (!response.ok) {
-    setFormError(data.detail || "Registration failed.");
-    return;
-  }
-
-  navigate({ to: "/profile-setup" });
-} catch {
-  setFormError("Unable to connect to the server.");
-} finally {
-  setSubmitting(false);
-}
+      navigate({
+        to: res.user.profile_completed ? "/assessment" : "/profile-setup",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <main className="auth-shell">
@@ -258,9 +273,7 @@ try {
                   <option key={lv}>{lv}</option>
                 ))}
               </select>
-              {errors.educationLevel ? (
-                <div className="error">{errors.educationLevel}</div>
-              ) : null}
+              {errors.educationLevel ? <div className="error">{errors.educationLevel}</div> : null}
             </div>
 
             <div className="field">

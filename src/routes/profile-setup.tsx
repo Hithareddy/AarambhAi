@@ -2,12 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import "../styles/theme.css";
 import { Logo } from "../components/Logo";
-import {
-  getCurrentUser,
-  markProfileComplete,
-  updateProfile,
-  type LearnerType,
-} from "../services/auth";
+import { getCurrentUser, updateProfile, type LearnerType } from "../services/auth";
 
 export const Route = createFileRoute("/profile-setup")({
   head: () => ({
@@ -47,25 +42,32 @@ function ProfileSetupPage() {
 
   useEffect(() => {
     const user = getCurrentUser();
+
     if (!user) {
       navigate({ to: "/login" });
       return;
     }
-    setName(user.fullName || "");
-    setLanguage(user.language || "English");
-    setEducationLevel(user.educationLevel || "");
-    setLearnerType((user.learnerType as LearnerType) || "");
+
+    setName(user.full_name || "");
+    setLanguage(user.preferred_language || "English");
+    setEducationLevel(user.education_level || "");
+    setLearnerType((user.learner_type as LearnerType) || "");
   }, [navigate]);
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    updateProfile({
-      fullName: name.trim(),
-      language,
-      educationLevel,
-      learnerType: (learnerType || undefined) as LearnerType | undefined,
+
+    const updatedUser = await updateProfile({
+      full_name: name.trim(),
+      preferred_language: language,
+      education_level: educationLevel,
+      learner_type: learnerType,
     });
-    markProfileComplete();
+
+    if (!updatedUser) {
+      return;
+    }
+
     navigate({ to: "/assessment" });
   };
 

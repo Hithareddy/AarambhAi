@@ -19,10 +19,7 @@ export function getItem<T = string>(key: string): T | null {
 export function setItem(key: string, value: unknown): void {
   if (!isBrowser) return;
   try {
-    window.localStorage.setItem(
-      key,
-      typeof value === "string" ? value : JSON.stringify(value),
-    );
+    window.localStorage.setItem(key, typeof value === "string" ? value : JSON.stringify(value));
   } catch {
     /* ignore */
   }

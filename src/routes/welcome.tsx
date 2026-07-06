@@ -36,9 +36,9 @@ function WelcomePage() {
           <h1 className="welcome-title">Aarambh AI</h1>
           <p className="welcome-tagline">Begin Learning, Anytime</p>
           <p className="welcome-desc">
-            A simple and friendly learning companion designed to help senior
-            citizens and first-generation learners improve reading, writing, and
-            digital literacy through personalized AI-powered learning.
+            A simple and friendly learning companion designed to help senior citizens and
+            first-generation learners improve reading, writing, and digital literacy through
+            personalized AI-powered learning.
           </p>
           <div className="welcome-actions">
             <Link to="/login" className="btn btn-primary">

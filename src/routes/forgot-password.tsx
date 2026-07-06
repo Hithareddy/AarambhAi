@@ -41,8 +41,8 @@ function ForgotPasswordPage() {
         {sent ? (
           <>
             <div className="alert alert-success" role="status">
-              A password reset link has been sent to <strong>{email}</strong>. Please check
-              your inbox and spam folder.
+              A password reset link has been sent to <strong>{email}</strong>. Please check your
+              inbox and spam folder.
             </div>
             <Link to="/login" className="btn btn-primary">
               Back to Login
