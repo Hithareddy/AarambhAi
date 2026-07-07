@@ -56,7 +56,7 @@ function LoginPage() {
     setErrors({});
 
     try {
-      const response = await fetch("https://tender-phones-grin.loca.lt/auth/login", {
+      const response = await fetch("https://worship-pictures-retrieved-brands.trycloudflare.com/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

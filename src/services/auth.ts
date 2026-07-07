@@ -1,6 +1,6 @@
 import { getItem, removeItem, setItem, StorageKeys } from "../utils/storage";
 
-const API_BASE_URL = "https://tender-phones-grin.loca.lt";
+const API_BASE_URL = "https://worship-pictures-retrieved-brands.trycloudflare.com";
 
 export type LearnerType =
   "Student" | "Senior Citizen" | "First-Generation Learner" | "Discontinued Learner";
