@@ -114,9 +114,7 @@ function RegisterPage() {
         return;
       }
 
-      navigate({
-        to: res.user.profile_completed ? "/assessment" : "/profile-setup",
-      });
+      navigate({ to: "/assessment" });
     } finally {
       setSubmitting(false);
     }

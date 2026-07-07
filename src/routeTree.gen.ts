@@ -10,23 +10,40 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WelcomeRouteImport } from './routes/welcome'
+import { Route as TutorRouteImport } from './routes/tutor'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as ProfileSetupRouteImport } from './routes/profile-setup'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as LearningPathRouteImport } from './routes/learning-path'
 import { Route as LanguageRouteImport } from './routes/language'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AssessmentResultsRouteImport } from './routes/assessment-results'
+import { Route as AssessmentQuizRouteImport } from './routes/assessment-quiz'
+import { Route as AssessmentAnalyzingRouteImport } from './routes/assessment-analyzing'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LessonLessonIdRouteImport } from './routes/lesson.$lessonId'
 
 const WelcomeRoute = WelcomeRouteImport.update({
   id: '/welcome',
   path: '/welcome',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TutorRoute = TutorRouteImport.update({
+  id: '/tutor',
+  path: '/tutor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileSetupRoute = ProfileSetupRouteImport.update({
@@ -37,6 +54,11 @@ const ProfileSetupRoute = ProfileSetupRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearningPathRoute = LearningPathRouteImport.update({
+  id: '/learning-path',
+  path: '/learning-path',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LanguageRoute = LanguageRouteImport.update({
@@ -54,6 +76,21 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AssessmentResultsRoute = AssessmentResultsRouteImport.update({
+  id: '/assessment-results',
+  path: '/assessment-results',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssessmentQuizRoute = AssessmentQuizRouteImport.update({
+  id: '/assessment-quiz',
+  path: '/assessment-quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssessmentAnalyzingRoute = AssessmentAnalyzingRouteImport.update({
+  id: '/assessment-analyzing',
+  path: '/assessment-analyzing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AssessmentRoute = AssessmentRouteImport.update({
   id: '/assessment',
   path: '/assessment',
@@ -64,87 +101,141 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LessonLessonIdRoute = LessonLessonIdRouteImport.update({
+  id: '/lesson/$lessonId',
+  path: '/lesson/$lessonId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/assessment-analyzing': typeof AssessmentAnalyzingRoute
+  '/assessment-quiz': typeof AssessmentQuizRoute
+  '/assessment-results': typeof AssessmentResultsRoute
   '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/language': typeof LanguageRoute
+  '/learning-path': typeof LearningPathRoute
   '/login': typeof LoginRoute
   '/profile-setup': typeof ProfileSetupRoute
+  '/progress': typeof ProgressRoute
   '/register': typeof RegisterRoute
+  '/tutor': typeof TutorRoute
   '/welcome': typeof WelcomeRoute
+  '/lesson/$lessonId': typeof LessonLessonIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/assessment-analyzing': typeof AssessmentAnalyzingRoute
+  '/assessment-quiz': typeof AssessmentQuizRoute
+  '/assessment-results': typeof AssessmentResultsRoute
   '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/language': typeof LanguageRoute
+  '/learning-path': typeof LearningPathRoute
   '/login': typeof LoginRoute
   '/profile-setup': typeof ProfileSetupRoute
+  '/progress': typeof ProgressRoute
   '/register': typeof RegisterRoute
+  '/tutor': typeof TutorRoute
   '/welcome': typeof WelcomeRoute
+  '/lesson/$lessonId': typeof LessonLessonIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/assessment-analyzing': typeof AssessmentAnalyzingRoute
+  '/assessment-quiz': typeof AssessmentQuizRoute
+  '/assessment-results': typeof AssessmentResultsRoute
   '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/language': typeof LanguageRoute
+  '/learning-path': typeof LearningPathRoute
   '/login': typeof LoginRoute
   '/profile-setup': typeof ProfileSetupRoute
+  '/progress': typeof ProgressRoute
   '/register': typeof RegisterRoute
+  '/tutor': typeof TutorRoute
   '/welcome': typeof WelcomeRoute
+  '/lesson/$lessonId': typeof LessonLessonIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/assessment'
+    | '/assessment-analyzing'
+    | '/assessment-quiz'
+    | '/assessment-results'
     | '/dashboard'
     | '/forgot-password'
     | '/language'
+    | '/learning-path'
     | '/login'
     | '/profile-setup'
+    | '/progress'
     | '/register'
+    | '/tutor'
     | '/welcome'
+    | '/lesson/$lessonId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/assessment'
+    | '/assessment-analyzing'
+    | '/assessment-quiz'
+    | '/assessment-results'
     | '/dashboard'
     | '/forgot-password'
     | '/language'
+    | '/learning-path'
     | '/login'
     | '/profile-setup'
+    | '/progress'
     | '/register'
+    | '/tutor'
     | '/welcome'
+    | '/lesson/$lessonId'
   id:
     | '__root__'
     | '/'
     | '/assessment'
+    | '/assessment-analyzing'
+    | '/assessment-quiz'
+    | '/assessment-results'
     | '/dashboard'
     | '/forgot-password'
     | '/language'
+    | '/learning-path'
     | '/login'
     | '/profile-setup'
+    | '/progress'
     | '/register'
+    | '/tutor'
     | '/welcome'
+    | '/lesson/$lessonId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssessmentRoute: typeof AssessmentRoute
+  AssessmentAnalyzingRoute: typeof AssessmentAnalyzingRoute
+  AssessmentQuizRoute: typeof AssessmentQuizRoute
+  AssessmentResultsRoute: typeof AssessmentResultsRoute
   DashboardRoute: typeof DashboardRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LanguageRoute: typeof LanguageRoute
+  LearningPathRoute: typeof LearningPathRoute
   LoginRoute: typeof LoginRoute
   ProfileSetupRoute: typeof ProfileSetupRoute
+  ProgressRoute: typeof ProgressRoute
   RegisterRoute: typeof RegisterRoute
+  TutorRoute: typeof TutorRoute
   WelcomeRoute: typeof WelcomeRoute
+  LessonLessonIdRoute: typeof LessonLessonIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -156,11 +247,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WelcomeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tutor': {
+      id: '/tutor'
+      path: '/tutor'
+      fullPath: '/tutor'
+      preLoaderRoute: typeof TutorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile-setup': {
@@ -175,6 +280,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learning-path': {
+      id: '/learning-path'
+      path: '/learning-path'
+      fullPath: '/learning-path'
+      preLoaderRoute: typeof LearningPathRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/language': {
@@ -198,6 +310,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assessment-results': {
+      id: '/assessment-results'
+      path: '/assessment-results'
+      fullPath: '/assessment-results'
+      preLoaderRoute: typeof AssessmentResultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assessment-quiz': {
+      id: '/assessment-quiz'
+      path: '/assessment-quiz'
+      fullPath: '/assessment-quiz'
+      preLoaderRoute: typeof AssessmentQuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assessment-analyzing': {
+      id: '/assessment-analyzing'
+      path: '/assessment-analyzing'
+      fullPath: '/assessment-analyzing'
+      preLoaderRoute: typeof AssessmentAnalyzingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/assessment': {
       id: '/assessment'
       path: '/assessment'
@@ -212,19 +345,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lesson/$lessonId': {
+      id: '/lesson/$lessonId'
+      path: '/lesson/$lessonId'
+      fullPath: '/lesson/$lessonId'
+      preLoaderRoute: typeof LessonLessonIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssessmentRoute: AssessmentRoute,
+  AssessmentAnalyzingRoute: AssessmentAnalyzingRoute,
+  AssessmentQuizRoute: AssessmentQuizRoute,
+  AssessmentResultsRoute: AssessmentResultsRoute,
   DashboardRoute: DashboardRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LanguageRoute: LanguageRoute,
+  LearningPathRoute: LearningPathRoute,
   LoginRoute: LoginRoute,
   ProfileSetupRoute: ProfileSetupRoute,
+  ProgressRoute: ProgressRoute,
   RegisterRoute: RegisterRoute,
+  TutorRoute: TutorRoute,
   WelcomeRoute: WelcomeRoute,
+  LessonLessonIdRoute: LessonLessonIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
