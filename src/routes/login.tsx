@@ -82,7 +82,7 @@ function LoginPage() {
       localStorage.setItem("aarambh.user", JSON.stringify(data.user));
 
       navigate({
-        to: data.user.profile_completed ? "/assessment" : "/profile-setup",
+        to: hasCompletedAssessment() ? "/dashboard" : "/assessment",
       });
     } catch {
       setErrors({
