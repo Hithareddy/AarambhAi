@@ -3,6 +3,7 @@ import { useState, type FormEvent } from "react";
 import "../styles/theme.css";
 import { Logo } from "../components/Logo";
 import { isValidEmail } from "../services/auth";
+import { hasCompletedAssessment } from "../services/assessment";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
