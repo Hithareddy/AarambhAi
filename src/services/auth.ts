@@ -1,6 +1,6 @@
 import { getItem, removeItem, setItem, StorageKeys } from "../utils/storage";
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "https://tender-phones-grin.loca.lt";
 
 export type LearnerType =
   "Student" | "Senior Citizen" | "First-Generation Learner" | "Discontinued Learner";

@@ -19,12 +19,12 @@ function ForgotPasswordPage() {
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
     if (!email.trim()) return setError("Email is required.");
     if (!isValidEmail(email)) return setError("Please enter a valid email address.");
-    const res = requestPasswordReset(email);
+    const res = await requestPasswordReset(email);
     if (!res.ok) return setError(res.error);
     setSent(true);
   };
