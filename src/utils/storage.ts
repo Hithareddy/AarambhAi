@@ -39,4 +39,8 @@ export const StorageKeys = {
   user: "aarambh.user",
   session: "aarambh.session",
   profileComplete: "aarambh.profileComplete",
+  assessmentCompleted: "aarambh.assessmentCompleted",
+  assessmentResult: "aarambh.assessmentResult",
+  learningProgress: "aarambh.learningProgress",
+  tutorHistory: "aarambh.tutorHistory",
 } as const;
