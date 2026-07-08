@@ -1,3 +1,4 @@
+import { RequireAuth } from "../components/RequireAuth";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import "../styles/theme.css";
 import "../styles/learner.css";
@@ -17,7 +18,7 @@ export const Route = createFileRoute("/assessment")({
       },
     ],
   }),
-  component: AssessmentIntro,
+  component: () => (<RequireAuth><AssessmentIntro /></RequireAuth>),
 });
 
 function AssessmentIntro() {

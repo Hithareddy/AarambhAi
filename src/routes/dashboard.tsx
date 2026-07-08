@@ -1,3 +1,4 @@
+import { RequireAuth } from "../components/RequireAuth";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import "../styles/theme.css";
@@ -14,7 +15,7 @@ export const Route = createFileRoute("/dashboard")({
       { name: "description", content: "Your personalized Aarambh AI learning dashboard." },
     ],
   }),
-  component: DashboardPage,
+  component: () => (<RequireAuth><DashboardPage /></RequireAuth>),
 });
 
 function DashboardPage() {

@@ -1,3 +1,4 @@
+import { RequireAuth } from "../components/RequireAuth";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import "../styles/theme.css";
@@ -8,7 +9,7 @@ import { getProgressSummary } from "../services/learning";
 
 export const Route = createFileRoute("/progress")({
   head: () => ({ meta: [{ title: "My Progress — Aarambh AI" }] }),
-  component: ProgressPage,
+  component: () => (<RequireAuth><ProgressPage /></RequireAuth>),
 });
 
 function ProgressPage() {

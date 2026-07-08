@@ -1,3 +1,4 @@
+import { RequireAuth } from "../components/RequireAuth";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import "../styles/theme.css";
@@ -6,7 +7,7 @@ import { AdaptiveAssessment } from "../services/assessment";
 
 export const Route = createFileRoute("/assessment-analyzing")({
   head: () => ({ meta: [{ title: "Analyzing — Aarambh AI" }] }),
-  component: AnalyzingPage,
+  component: () => (<RequireAuth><AnalyzingPage /></RequireAuth>),
 });
 
 function AnalyzingPage() {

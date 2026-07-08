@@ -1,3 +1,4 @@
+import { RequireAuth } from "../components/RequireAuth";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import "../styles/theme.css";
@@ -8,7 +9,7 @@ import { getLearningPath, type Lesson, type LessonStatus } from "../services/lea
 
 export const Route = createFileRoute("/learning-path")({
   head: () => ({ meta: [{ title: "Learning Path — Aarambh AI" }] }),
-  component: LearningPathPage,
+  component: () => (<RequireAuth><LearningPathPage /></RequireAuth>),
 });
 
 function statusLabel(status: LessonStatus) {
