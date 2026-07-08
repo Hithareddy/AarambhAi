@@ -1,3 +1,4 @@
+import { RequireAuth } from "../components/RequireAuth";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import "../styles/theme.css";
@@ -12,7 +13,7 @@ import {
 
 export const Route = createFileRoute("/lesson/$lessonId")({
   head: () => ({ meta: [{ title: "Lesson — Aarambh AI" }] }),
-  component: LessonPage,
+  component: () => (<RequireAuth><LessonPage /></RequireAuth>),
 });
 
 function LessonPage() {

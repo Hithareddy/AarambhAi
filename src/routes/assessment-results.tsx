@@ -1,3 +1,4 @@
+import { RequireAuth } from "../components/RequireAuth";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import "../styles/theme.css";
@@ -7,7 +8,7 @@ import { getAssessmentResult, type AssessmentResult } from "../services/assessme
 
 export const Route = createFileRoute("/assessment-results")({
   head: () => ({ meta: [{ title: "Assessment Results — Aarambh AI" }] }),
-  component: AssessmentResultsPage,
+  component: () => (<RequireAuth><AssessmentResultsPage /></RequireAuth>),
 });
 
 function AssessmentResultsPage() {

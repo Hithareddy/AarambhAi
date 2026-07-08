@@ -1,3 +1,4 @@
+import { RequireAuth } from "../components/RequireAuth";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import "../styles/theme.css";
@@ -12,7 +13,7 @@ import {
 
 export const Route = createFileRoute("/tutor")({
   head: () => ({ meta: [{ title: "AI Tutor — Aarambh AI" }] }),
-  component: TutorPage,
+  component: () => (<RequireAuth><TutorPage /></RequireAuth>),
 });
 
 const GREETING: TutorMessage = {
