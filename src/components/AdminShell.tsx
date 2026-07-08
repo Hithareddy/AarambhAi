@@ -5,12 +5,18 @@ import { Logo } from "./Logo";
 import { logout } from "../services/auth";
 import { setRole } from "../services/role";
 
-const NAV = [
+type NavItem = {
+  to: "/admin" | "/admin/questions" | "/admin/content" | "/admin/learners";
+  label: string;
+  exact?: boolean;
+};
+
+const NAV: NavItem[] = [
   { to: "/admin", label: "Dashboard", exact: true },
   { to: "/admin/questions", label: "Questions" },
   { to: "/admin/content", label: "Content" },
   { to: "/admin/learners", label: "Learners" },
-] as const;
+];
 
 export function AdminShell({
   title,
