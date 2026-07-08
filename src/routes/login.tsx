@@ -4,6 +4,7 @@ import "../styles/theme.css";
 import { Logo } from "../components/Logo";
 import { isValidEmail } from "../services/auth";
 import { hasCompletedAssessment } from "../services/assessment";
+import { setRole } from "../services/role";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -80,6 +81,9 @@ function LoginPage() {
       localStorage.setItem("aarambh.accessToken", data.access_token);
 
       localStorage.setItem("aarambh.user", JSON.stringify(data.user));
+
+      // Default role is learner until the backend returns a real role.
+      setRole("learner");
 
       navigate({
         to: hasCompletedAssessment() ? "/dashboard" : "/assessment",

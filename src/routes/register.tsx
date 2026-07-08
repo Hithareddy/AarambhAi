@@ -3,6 +3,7 @@ import { useMemo, useState, type FormEvent } from "react";
 import "../styles/theme.css";
 import { Logo } from "../components/Logo";
 import { isValidEmail, passwordStrength, register, type LearnerType } from "../services/auth";
+import { setRole } from "../services/role";
 import { getItem, StorageKeys } from "../utils/storage";
 
 export const Route = createFileRoute("/register")({
@@ -114,6 +115,7 @@ function RegisterPage() {
         return;
       }
 
+      setRole("learner");
       navigate({ to: "/assessment" });
     } finally {
       setSubmitting(false);
