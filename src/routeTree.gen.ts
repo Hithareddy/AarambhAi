@@ -13,7 +13,6 @@ import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as TutorRouteImport } from './routes/tutor'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ProgressRouteImport } from './routes/progress'
-import { Route as ProfileSetupRouteImport } from './routes/profile-setup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LearningPathRouteImport } from './routes/learning-path'
 import { Route as LanguageRouteImport } from './routes/language'
@@ -44,11 +43,6 @@ const RegisterRoute = RegisterRouteImport.update({
 const ProgressRoute = ProgressRouteImport.update({
   id: '/progress',
   path: '/progress',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProfileSetupRoute = ProfileSetupRouteImport.update({
-  id: '/profile-setup',
-  path: '/profile-setup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -118,7 +112,6 @@ export interface FileRoutesByFullPath {
   '/language': typeof LanguageRoute
   '/learning-path': typeof LearningPathRoute
   '/login': typeof LoginRoute
-  '/profile-setup': typeof ProfileSetupRoute
   '/progress': typeof ProgressRoute
   '/register': typeof RegisterRoute
   '/tutor': typeof TutorRoute
@@ -136,7 +129,6 @@ export interface FileRoutesByTo {
   '/language': typeof LanguageRoute
   '/learning-path': typeof LearningPathRoute
   '/login': typeof LoginRoute
-  '/profile-setup': typeof ProfileSetupRoute
   '/progress': typeof ProgressRoute
   '/register': typeof RegisterRoute
   '/tutor': typeof TutorRoute
@@ -155,7 +147,6 @@ export interface FileRoutesById {
   '/language': typeof LanguageRoute
   '/learning-path': typeof LearningPathRoute
   '/login': typeof LoginRoute
-  '/profile-setup': typeof ProfileSetupRoute
   '/progress': typeof ProgressRoute
   '/register': typeof RegisterRoute
   '/tutor': typeof TutorRoute
@@ -175,7 +166,6 @@ export interface FileRouteTypes {
     | '/language'
     | '/learning-path'
     | '/login'
-    | '/profile-setup'
     | '/progress'
     | '/register'
     | '/tutor'
@@ -193,7 +183,6 @@ export interface FileRouteTypes {
     | '/language'
     | '/learning-path'
     | '/login'
-    | '/profile-setup'
     | '/progress'
     | '/register'
     | '/tutor'
@@ -211,7 +200,6 @@ export interface FileRouteTypes {
     | '/language'
     | '/learning-path'
     | '/login'
-    | '/profile-setup'
     | '/progress'
     | '/register'
     | '/tutor'
@@ -230,7 +218,6 @@ export interface RootRouteChildren {
   LanguageRoute: typeof LanguageRoute
   LearningPathRoute: typeof LearningPathRoute
   LoginRoute: typeof LoginRoute
-  ProfileSetupRoute: typeof ProfileSetupRoute
   ProgressRoute: typeof ProgressRoute
   RegisterRoute: typeof RegisterRoute
   TutorRoute: typeof TutorRoute
@@ -266,13 +253,6 @@ declare module '@tanstack/react-router' {
       path: '/progress'
       fullPath: '/progress'
       preLoaderRoute: typeof ProgressRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/profile-setup': {
-      id: '/profile-setup'
-      path: '/profile-setup'
-      fullPath: '/profile-setup'
-      preLoaderRoute: typeof ProfileSetupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -366,7 +346,6 @@ const rootRouteChildren: RootRouteChildren = {
   LanguageRoute: LanguageRoute,
   LearningPathRoute: LearningPathRoute,
   LoginRoute: LoginRoute,
-  ProfileSetupRoute: ProfileSetupRoute,
   ProgressRoute: ProgressRoute,
   RegisterRoute: RegisterRoute,
   TutorRoute: TutorRoute,
@@ -376,13 +355,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
