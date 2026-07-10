@@ -166,5 +166,4 @@ function RootComponent() {
   );
 }
 
-  );
-}
+
