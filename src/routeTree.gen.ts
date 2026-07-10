@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as TutorRouteImport } from './routes/tutor'
+import { Route as RoleSelectRouteImport } from './routes/role-select'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as LoginRouteImport } from './routes/login'
@@ -25,12 +26,6 @@ import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LessonLessonIdRouteImport } from './routes/lesson.$lessonId'
-import { Route as AdminQuestionsRouteImport } from './routes/admin.questions'
-import { Route as AdminLearnersRouteImport } from './routes/admin.learners'
-import { Route as AdminContentRouteImport } from './routes/admin.content'
-import { Route as AdminQuestionsNewRouteImport } from './routes/admin.questions.new'
-import { Route as AdminLearnersLearnerIdRouteImport } from './routes/admin.learners.$learnerId'
-import { Route as AdminQuestionsQuestionIdEditRouteImport } from './routes/admin.questions.$questionId.edit'
 
 const WelcomeRoute = WelcomeRouteImport.update({
   id: '/welcome',
@@ -40,6 +35,11 @@ const WelcomeRoute = WelcomeRouteImport.update({
 const TutorRoute = TutorRouteImport.update({
   id: '/tutor',
   path: '/tutor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoleSelectRoute = RoleSelectRouteImport.update({
+  id: '/role-select',
+  path: '/role-select',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterRoute = RegisterRouteImport.update({
@@ -112,41 +112,10 @@ const LessonLessonIdRoute = LessonLessonIdRouteImport.update({
   path: '/lesson/$lessonId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminQuestionsRoute = AdminQuestionsRouteImport.update({
-  id: '/questions',
-  path: '/questions',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminLearnersRoute = AdminLearnersRouteImport.update({
-  id: '/learners',
-  path: '/learners',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminContentRoute = AdminContentRouteImport.update({
-  id: '/content',
-  path: '/content',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminQuestionsNewRoute = AdminQuestionsNewRouteImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => AdminQuestionsRoute,
-} as any)
-const AdminLearnersLearnerIdRoute = AdminLearnersLearnerIdRouteImport.update({
-  id: '/$learnerId',
-  path: '/$learnerId',
-  getParentRoute: () => AdminLearnersRoute,
-} as any)
-const AdminQuestionsQuestionIdEditRoute =
-  AdminQuestionsQuestionIdEditRouteImport.update({
-    id: '/$questionId/edit',
-    path: '/$questionId/edit',
-    getParentRoute: () => AdminQuestionsRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
+  '/admin': typeof AdminRoute
   '/assessment': typeof AssessmentRoute
   '/assessment-analyzing': typeof AssessmentAnalyzingRoute
   '/assessment-quiz': typeof AssessmentQuizRoute
@@ -158,19 +127,14 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/progress': typeof ProgressRoute
   '/register': typeof RegisterRoute
+  '/role-select': typeof RoleSelectRoute
   '/tutor': typeof TutorRoute
   '/welcome': typeof WelcomeRoute
-  '/admin/content': typeof AdminContentRoute
-  '/admin/learners': typeof AdminLearnersRouteWithChildren
-  '/admin/questions': typeof AdminQuestionsRouteWithChildren
   '/lesson/$lessonId': typeof LessonLessonIdRoute
-  '/admin/learners/$learnerId': typeof AdminLearnersLearnerIdRoute
-  '/admin/questions/new': typeof AdminQuestionsNewRoute
-  '/admin/questions/$questionId/edit': typeof AdminQuestionsQuestionIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
+  '/admin': typeof AdminRoute
   '/assessment': typeof AssessmentRoute
   '/assessment-analyzing': typeof AssessmentAnalyzingRoute
   '/assessment-quiz': typeof AssessmentQuizRoute
@@ -182,20 +146,15 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/progress': typeof ProgressRoute
   '/register': typeof RegisterRoute
+  '/role-select': typeof RoleSelectRoute
   '/tutor': typeof TutorRoute
   '/welcome': typeof WelcomeRoute
-  '/admin/content': typeof AdminContentRoute
-  '/admin/learners': typeof AdminLearnersRouteWithChildren
-  '/admin/questions': typeof AdminQuestionsRouteWithChildren
   '/lesson/$lessonId': typeof LessonLessonIdRoute
-  '/admin/learners/$learnerId': typeof AdminLearnersLearnerIdRoute
-  '/admin/questions/new': typeof AdminQuestionsNewRoute
-  '/admin/questions/$questionId/edit': typeof AdminQuestionsQuestionIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
+  '/admin': typeof AdminRoute
   '/assessment': typeof AssessmentRoute
   '/assessment-analyzing': typeof AssessmentAnalyzingRoute
   '/assessment-quiz': typeof AssessmentQuizRoute
@@ -207,15 +166,10 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/progress': typeof ProgressRoute
   '/register': typeof RegisterRoute
+  '/role-select': typeof RoleSelectRoute
   '/tutor': typeof TutorRoute
   '/welcome': typeof WelcomeRoute
-  '/admin/content': typeof AdminContentRoute
-  '/admin/learners': typeof AdminLearnersRouteWithChildren
-  '/admin/questions': typeof AdminQuestionsRouteWithChildren
   '/lesson/$lessonId': typeof LessonLessonIdRoute
-  '/admin/learners/$learnerId': typeof AdminLearnersLearnerIdRoute
-  '/admin/questions/new': typeof AdminQuestionsNewRoute
-  '/admin/questions/$questionId/edit': typeof AdminQuestionsQuestionIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -233,15 +187,10 @@ export interface FileRouteTypes {
     | '/login'
     | '/progress'
     | '/register'
+    | '/role-select'
     | '/tutor'
     | '/welcome'
-    | '/admin/content'
-    | '/admin/learners'
-    | '/admin/questions'
     | '/lesson/$lessonId'
-    | '/admin/learners/$learnerId'
-    | '/admin/questions/new'
-    | '/admin/questions/$questionId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -257,15 +206,10 @@ export interface FileRouteTypes {
     | '/login'
     | '/progress'
     | '/register'
+    | '/role-select'
     | '/tutor'
     | '/welcome'
-    | '/admin/content'
-    | '/admin/learners'
-    | '/admin/questions'
     | '/lesson/$lessonId'
-    | '/admin/learners/$learnerId'
-    | '/admin/questions/new'
-    | '/admin/questions/$questionId/edit'
   id:
     | '__root__'
     | '/'
@@ -281,20 +225,15 @@ export interface FileRouteTypes {
     | '/login'
     | '/progress'
     | '/register'
+    | '/role-select'
     | '/tutor'
     | '/welcome'
-    | '/admin/content'
-    | '/admin/learners'
-    | '/admin/questions'
     | '/lesson/$lessonId'
-    | '/admin/learners/$learnerId'
-    | '/admin/questions/new'
-    | '/admin/questions/$questionId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRouteWithChildren
+  AdminRoute: typeof AdminRoute
   AssessmentRoute: typeof AssessmentRoute
   AssessmentAnalyzingRoute: typeof AssessmentAnalyzingRoute
   AssessmentQuizRoute: typeof AssessmentQuizRoute
@@ -306,6 +245,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   ProgressRoute: typeof ProgressRoute
   RegisterRoute: typeof RegisterRoute
+  RoleSelectRoute: typeof RoleSelectRoute
   TutorRoute: typeof TutorRoute
   WelcomeRoute: typeof WelcomeRoute
   LessonLessonIdRoute: typeof LessonLessonIdRoute
@@ -325,6 +265,13 @@ declare module '@tanstack/react-router' {
       path: '/tutor'
       fullPath: '/tutor'
       preLoaderRoute: typeof TutorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/role-select': {
+      id: '/role-select'
+      path: '/role-select'
+      fullPath: '/role-select'
+      preLoaderRoute: typeof RoleSelectRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/register': {
@@ -425,94 +372,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LessonLessonIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/questions': {
-      id: '/admin/questions'
-      path: '/questions'
-      fullPath: '/admin/questions'
-      preLoaderRoute: typeof AdminQuestionsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/learners': {
-      id: '/admin/learners'
-      path: '/learners'
-      fullPath: '/admin/learners'
-      preLoaderRoute: typeof AdminLearnersRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/content': {
-      id: '/admin/content'
-      path: '/content'
-      fullPath: '/admin/content'
-      preLoaderRoute: typeof AdminContentRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/questions/new': {
-      id: '/admin/questions/new'
-      path: '/new'
-      fullPath: '/admin/questions/new'
-      preLoaderRoute: typeof AdminQuestionsNewRouteImport
-      parentRoute: typeof AdminQuestionsRoute
-    }
-    '/admin/learners/$learnerId': {
-      id: '/admin/learners/$learnerId'
-      path: '/$learnerId'
-      fullPath: '/admin/learners/$learnerId'
-      preLoaderRoute: typeof AdminLearnersLearnerIdRouteImport
-      parentRoute: typeof AdminLearnersRoute
-    }
-    '/admin/questions/$questionId/edit': {
-      id: '/admin/questions/$questionId/edit'
-      path: '/$questionId/edit'
-      fullPath: '/admin/questions/$questionId/edit'
-      preLoaderRoute: typeof AdminQuestionsQuestionIdEditRouteImport
-      parentRoute: typeof AdminQuestionsRoute
-    }
   }
 }
 
-interface AdminLearnersRouteChildren {
-  AdminLearnersLearnerIdRoute: typeof AdminLearnersLearnerIdRoute
-}
-
-const AdminLearnersRouteChildren: AdminLearnersRouteChildren = {
-  AdminLearnersLearnerIdRoute: AdminLearnersLearnerIdRoute,
-}
-
-const AdminLearnersRouteWithChildren = AdminLearnersRoute._addFileChildren(
-  AdminLearnersRouteChildren,
-)
-
-interface AdminQuestionsRouteChildren {
-  AdminQuestionsNewRoute: typeof AdminQuestionsNewRoute
-  AdminQuestionsQuestionIdEditRoute: typeof AdminQuestionsQuestionIdEditRoute
-}
-
-const AdminQuestionsRouteChildren: AdminQuestionsRouteChildren = {
-  AdminQuestionsNewRoute: AdminQuestionsNewRoute,
-  AdminQuestionsQuestionIdEditRoute: AdminQuestionsQuestionIdEditRoute,
-}
-
-const AdminQuestionsRouteWithChildren = AdminQuestionsRoute._addFileChildren(
-  AdminQuestionsRouteChildren,
-)
-
-interface AdminRouteChildren {
-  AdminContentRoute: typeof AdminContentRoute
-  AdminLearnersRoute: typeof AdminLearnersRouteWithChildren
-  AdminQuestionsRoute: typeof AdminQuestionsRouteWithChildren
-}
-
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminContentRoute: AdminContentRoute,
-  AdminLearnersRoute: AdminLearnersRouteWithChildren,
-  AdminQuestionsRoute: AdminQuestionsRouteWithChildren,
-}
-
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRouteWithChildren,
+  AdminRoute: AdminRoute,
   AssessmentRoute: AssessmentRoute,
   AssessmentAnalyzingRoute: AssessmentAnalyzingRoute,
   AssessmentQuizRoute: AssessmentQuizRoute,
@@ -524,6 +389,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   ProgressRoute: ProgressRoute,
   RegisterRoute: RegisterRoute,
+  RoleSelectRoute: RoleSelectRoute,
   TutorRoute: TutorRoute,
   WelcomeRoute: WelcomeRoute,
   LessonLessonIdRoute: LessonLessonIdRoute,
@@ -531,13 +397,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

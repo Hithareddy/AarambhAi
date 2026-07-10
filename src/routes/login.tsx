@@ -2,9 +2,10 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import "../styles/theme.css";
 import { Logo } from "../components/Logo";
-import { isValidEmail } from "../services/auth";
+import { isValidEmail, login as loginService } from "../services/auth";
 import { hasCompletedAssessment } from "../services/assessment";
 import { setRole } from "../services/role";
+
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -58,44 +59,24 @@ function LoginPage() {
     setErrors({});
 
     try {
-      const response = await fetch("https://worship-pictures-retrieved-brands.trycloudflare.com/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email.trim(),
-          password,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setErrors({
-          form: data.detail || "Login failed.",
-        });
+      const result = await loginService(email, password, remember);
+      if (!result.ok) {
+        setErrors({ form: result.error });
         return;
       }
-
-      localStorage.setItem("aarambh.accessToken", data.access_token);
-
-      localStorage.setItem("aarambh.user", JSON.stringify(data.user));
-
-      // Default role is learner until the backend returns a real role.
+      const session = JSON.parse(localStorage.getItem("aarambh.session") || "{}");
+      if (session?.accessToken) {
+        localStorage.setItem("aarambh.accessToken", session.accessToken);
+      }
       setRole("learner");
-
-      navigate({
-        to: hasCompletedAssessment() ? "/dashboard" : "/assessment",
-      });
+      navigate({ to: hasCompletedAssessment() ? "/dashboard" : "/assessment" });
     } catch {
-      setErrors({
-        form: "Unable to connect to the server.",
-      });
+      setErrors({ form: "Unable to connect to the server." });
     } finally {
       setSubmitting(false);
     }
   };
+
 
   return (
     <main className="auth-shell">
