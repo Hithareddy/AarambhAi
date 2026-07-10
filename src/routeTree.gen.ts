@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as TutorRouteImport } from './routes/tutor'
+import { Route as RoleSelectRouteImport } from './routes/role-select'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as LoginRouteImport } from './routes/login'
@@ -40,6 +41,11 @@ const WelcomeRoute = WelcomeRouteImport.update({
 const TutorRoute = TutorRouteImport.update({
   id: '/tutor',
   path: '/tutor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoleSelectRoute = RoleSelectRouteImport.update({
+  id: '/role-select',
+  path: '/role-select',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterRoute = RegisterRouteImport.update({
@@ -158,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/progress': typeof ProgressRoute
   '/register': typeof RegisterRoute
+  '/role-select': typeof RoleSelectRoute
   '/tutor': typeof TutorRoute
   '/welcome': typeof WelcomeRoute
   '/admin/content': typeof AdminContentRoute
@@ -182,6 +189,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/progress': typeof ProgressRoute
   '/register': typeof RegisterRoute
+  '/role-select': typeof RoleSelectRoute
   '/tutor': typeof TutorRoute
   '/welcome': typeof WelcomeRoute
   '/admin/content': typeof AdminContentRoute
@@ -207,6 +215,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/progress': typeof ProgressRoute
   '/register': typeof RegisterRoute
+  '/role-select': typeof RoleSelectRoute
   '/tutor': typeof TutorRoute
   '/welcome': typeof WelcomeRoute
   '/admin/content': typeof AdminContentRoute
@@ -233,6 +242,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/progress'
     | '/register'
+    | '/role-select'
     | '/tutor'
     | '/welcome'
     | '/admin/content'
@@ -257,6 +267,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/progress'
     | '/register'
+    | '/role-select'
     | '/tutor'
     | '/welcome'
     | '/admin/content'
@@ -281,6 +292,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/progress'
     | '/register'
+    | '/role-select'
     | '/tutor'
     | '/welcome'
     | '/admin/content'
@@ -306,6 +318,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   ProgressRoute: typeof ProgressRoute
   RegisterRoute: typeof RegisterRoute
+  RoleSelectRoute: typeof RoleSelectRoute
   TutorRoute: typeof TutorRoute
   WelcomeRoute: typeof WelcomeRoute
   LessonLessonIdRoute: typeof LessonLessonIdRoute
@@ -325,6 +338,13 @@ declare module '@tanstack/react-router' {
       path: '/tutor'
       fullPath: '/tutor'
       preLoaderRoute: typeof TutorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/role-select': {
+      id: '/role-select'
+      path: '/role-select'
+      fullPath: '/role-select'
+      preLoaderRoute: typeof RoleSelectRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/register': {
@@ -524,6 +544,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   ProgressRoute: ProgressRoute,
   RegisterRoute: RegisterRoute,
+  RoleSelectRoute: RoleSelectRoute,
   TutorRoute: TutorRoute,
   WelcomeRoute: WelcomeRoute,
   LessonLessonIdRoute: LessonLessonIdRoute,
