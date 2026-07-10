@@ -2,9 +2,10 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import "../styles/theme.css";
 import { Logo } from "../components/Logo";
-import { isValidEmail } from "../services/auth";
+import { isValidEmail, login as loginService } from "../services/auth";
 import { hasCompletedAssessment } from "../services/assessment";
 import { setRole } from "../services/role";
+
 
 export const Route = createFileRoute("/login")({
   head: () => ({
