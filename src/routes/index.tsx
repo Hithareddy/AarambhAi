@@ -1,13 +1,15 @@
 import { createFileRoute, Navigate } from "@tanstack/react-router";
-import { getItem, StorageKeys } from "../utils/storage";
+import { isAuthenticated } from "../services/auth";
+import { hasCompletedAssessment } from "../services/assessment";
 
 export const Route = createFileRoute("/")({
   component: RootIndex,
 });
 
 function RootIndex() {
-  // First-time visitors go through language selection; returning visitors
-  // land on the welcome screen.
-  const hasLanguage = typeof window !== "undefined" && getItem<string>(StorageKeys.language);
-  return <Navigate to={hasLanguage ? "/welcome" : "/language"} />;
+  if (typeof window === "undefined") return null;
+  if (isAuthenticated()) {
+    return <Navigate to={hasCompletedAssessment() ? "/dashboard" : "/assessment"} />;
+  }
+  return <Navigate to="/role-select" />;
 }
