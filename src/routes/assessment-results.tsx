@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import "../styles/theme.css";
 import "../styles/learner.css";
 import { Logo } from "../components/Logo";
+import { SkillResultCard } from "../components/SkillResultCard";
 import { getAssessmentResult, type AssessmentResult } from "../services/assessment";
 
 export const Route = createFileRoute("/assessment-results")({
@@ -23,97 +24,90 @@ function AssessmentResultsPage() {
 
   if (!result) return null;
 
+  const outcomes = result.skillOutcomes ?? [];
+  const strengths = result.strengths ?? [];
+  const improvements = result.improvements ?? result.weaknesses ?? [];
+  const path = result.recommendedLearningPath ?? [result.recommendedFocus ?? result.recommendedStart];
+
   return (
     <div className="app-shell">
       <main className="app-main">
-        <div className="panel" style={{ textAlign: "center", marginBottom: "1.25rem" }}>
+        <div className="panel" style={{ textAlign: "center" }}>
           <Logo withName />
-          <h1 style={{ marginTop: "0.75rem" }}>Your Learning Snapshot</h1>
+          <h1 style={{ marginTop: "0.75rem" }}>Your LSRW snapshot</h1>
           <p className="muted">
-            Here's a friendly summary — this is a starting point, not a score to worry about.
+            Taken on {new Date(result.completedAt).toLocaleDateString()} · Language: {result.language ?? "—"}
           </p>
         </div>
 
         <div className="grid-3">
           <div className="stat-card">
-            <p className="stat-label">Estimated Starting Level</p>
-            <div className="stat-value">{result.level}</div>
-            <p className="stat-sub">Based on your answers today</p>
+            <p className="stat-label">Overall estimated level</p>
+            <div className="stat-value">{result.overallLevel ?? result.level}</div>
+            <p className="stat-sub">Across all four skills</p>
           </div>
           <div className="stat-card">
-            <p className="stat-label">Recommended Starting Point</p>
-            <div className="stat-value" style={{ fontSize: "1.4rem" }}>
-              {result.recommendedStart}
+            <p className="stat-label">Recommended focus area</p>
+            <div className="stat-value" style={{ fontSize: "1.35rem" }}>
+              {result.recommendedFocus ?? result.recommendedStart}
             </div>
-            <p className="stat-sub">We'll begin your path here</p>
+            <p className="stat-sub">Where extra practice will help most</p>
           </div>
           <div className="stat-card">
-            <p className="stat-label">Questions Answered</p>
-            <div className="stat-value">
-              {result.correctCount}/{result.totalQuestions}
-            </div>
-            <p className="stat-sub">{Math.round(result.accuracy * 100)}% accuracy</p>
+            <p className="stat-label">Questions attempted</p>
+            <div className="stat-value">{result.totalQuestions}</div>
+            <p className="stat-sub">Across LSRW</p>
           </div>
-        </div>
-
-        <div className="panel" style={{ marginTop: "1.25rem" }}>
-          <h2>Your Strengths</h2>
-          {result.strengths.length ? (
-            <div className="chip-row">
-              {result.strengths.map((s) => (
-                <span key={s} className="chip chip-strong">
-                  ★ {s}
-                </span>
-              ))}
-            </div>
-          ) : (
-            <p className="muted">
-              You're just starting out — every topic is a fresh opportunity to grow.
-            </p>
-          )}
         </div>
 
         <div className="panel">
-          <h2>Topics to Focus On</h2>
-          {result.weaknesses.length ? (
-            <div className="chip-row">
-              {result.weaknesses.map((s) => (
-                <span key={s} className="chip chip-weak">
-                  ✎ {s}
-                </span>
-              ))}
-            </div>
-          ) : (
-            <p className="muted">Wonderful — no weak topics stood out. We'll keep it well-balanced.</p>
-          )}
+          <h2>Skill levels</h2>
+          <div className="skill-result-grid">
+            {outcomes.map((o) => (<SkillResultCard key={o.skill} outcome={o} />))}
+          </div>
         </div>
 
-        <div className="panel">
-          <h2>Topic-wise Performance</h2>
-          <div className="spaced-y">
-            {result.topicBreakdown.map((t) => (
-              <div key={t.topic}>
-                <div className="progress-label">
-                  <strong>{t.topic}</strong>
-                  <span>
-                    {t.correct}/{t.total} ({Math.round(t.accuracy * 100)}%)
-                  </span>
-                </div>
-                <div className="progress-bar">
-                  <span style={{ width: `${Math.round(t.accuracy * 100)}%` }} />
-                </div>
+        <div className="grid-2-wide">
+          <div className="panel">
+            <h2>Strengths</h2>
+            {strengths.length ? (
+              <div className="chip-row">
+                {strengths.map((s) => (<span key={s} className="chip chip-strong">★ {s}</span>))}
               </div>
-            ))}
+            ) : (
+              <p className="muted">Every skill is a fresh starting point — you'll grow quickly.</p>
+            )}
+          </div>
+          <div className="panel">
+            <h2>Skills to improve</h2>
+            {improvements.length ? (
+              <div className="chip-row">
+                {improvements.map((s) => (<span key={s} className="chip chip-weak">✎ {s}</span>))}
+              </div>
+            ) : (
+              <p className="muted">Well balanced across skills — nice work.</p>
+            )}
           </div>
         </div>
 
-        <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
-          <button
-            className="btn btn-primary"
-            style={{ width: "auto", padding: "0.9rem 2rem" }}
-            onClick={() => navigate({ to: "/dashboard" })}
-          >
-            Go to My Dashboard
+        <div className="panel">
+          <h2>Recommended learning path</h2>
+          <ol className="learning-path">
+            {path.map((p, i) => (
+              <li key={p + i}><span className="lp-num">{i + 1}</span> {p}</li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="results-actions">
+          <button className="btn btn-primary" onClick={() => navigate({ to: "/learning-path" })}>
+            Start Learning Path
+          </button>
+          <button className="btn btn-secondary" onClick={() => navigate({ to: "/assessment" })}>
+            Retake Assessment
+          </button>
+          <button className="btn btn-ghost" onClick={() => navigate({ to: "/dashboard" })}>
+            Go to Dashboard
           </button>
         </div>
       </main>

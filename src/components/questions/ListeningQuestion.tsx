@@ -14,7 +14,7 @@ export function ListeningQuestion({ question, disabled, onSubmit }: Props) {
   const [hasPlayed, setHasPlayed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const supported = isTTSSupported();
-  const off = useRef<() => void>();
+  const off = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     setSelected(null);
